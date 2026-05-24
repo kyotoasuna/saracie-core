@@ -34,11 +34,14 @@ jobs:
           go build -o dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/saracie-wallet${{ matrix.ext }} ./cmd/saracie-wallet
           go build -o dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/saracie-ui${{ matrix.ext }} ./cmd/saracie-ui
           cp -r scripts dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/
-          cp README.md QUICKSTART_WINDOWS.md MINING.md WALLET.md WALLET_SECURITY.md UI.md WHITEPAPER.md RELEASE_NOTES_v0.1.2.md LICENSE dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/
+          cp README.md QUICKSTART_WINDOWS.md MINING.md WALLET.md WALLET_SECURITY.md UI.md WHITEPAPER.md LICENSE dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/
+          if [ -f "RELEASE_NOTES_${{ github.ref_name }}.md" ]; then
+            cp "RELEASE_NOTES_${{ github.ref_name }}.md" dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/
+          fi
       - name: Checksums
         run: |
           cd dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}
-          sha256sum * > SHA256SUMS.txt
+          find . -type f -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
         with:
           name: saracie-${{ matrix.goos }}-${{ matrix.goarch }}

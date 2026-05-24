@@ -19,7 +19,7 @@ https://kyotoasuna.github.io/saracie-core/
 Latest release:
 
 ```text
-https://github.com/kyotoasuna/saracie-core/releases/tag/v0.1.2
+https://github.com/kyotoasuna/saracie-core/releases/tag/v0.1.3
 ```
 
 ```text

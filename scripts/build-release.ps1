@@ -31,8 +31,12 @@ try {
         go build -o (Join-Path $outDir "saracie-ui$($target.Ext)") ./cmd/saracie-ui
 
         Copy-Item -Path (Join-Path $Root "scripts") -Destination $outDir -Recurse -Force
-        foreach ($doc in @("README.md", "QUICKSTART_WINDOWS.md", "MINING.md", "WALLET.md", "WALLET_SECURITY.md", "UI.md", "WHITEPAPER.md", "RELEASE_NOTES_v0.1.2.md", "LICENSE")) {
+        foreach ($doc in @("README.md", "QUICKSTART_WINDOWS.md", "MINING.md", "WALLET.md", "WALLET_SECURITY.md", "UI.md", "WHITEPAPER.md", "LICENSE")) {
             Copy-Item -Path (Join-Path $Root $doc) -Destination $outDir -Force
+        }
+        $releaseNotes = Join-Path $Root "RELEASE_NOTES_$Version.md"
+        if (Test-Path $releaseNotes) {
+            Copy-Item -Path $releaseNotes -Destination $outDir -Force
         }
     }
 
