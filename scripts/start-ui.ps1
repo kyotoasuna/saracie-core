@@ -9,6 +9,9 @@ $ErrorActionPreference = "Stop"
 
 $Root = Split-Path -Parent $PSScriptRoot
 $UIExe = Join-Path $Root "bin\saracie-ui.exe"
+if (-not (Test-Path $UIExe)) {
+    $UIExe = Join-Path $Root "saracie-ui.exe"
+}
 
 if (-not (Test-Path $UIExe)) {
     throw "Missing $UIExe. Run .\scripts\build-release.ps1 or go build first."

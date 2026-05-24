@@ -33,6 +33,8 @@ jobs:
           go build -o dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/saracie-miner${{ matrix.ext }} ./cmd/saracie-miner
           go build -o dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/saracie-wallet${{ matrix.ext }} ./cmd/saracie-wallet
           go build -o dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/saracie-ui${{ matrix.ext }} ./cmd/saracie-ui
+          cp -r scripts dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/
+          cp README.md QUICKSTART_WINDOWS.md MINING.md WALLET.md WALLET_SECURITY.md UI.md WHITEPAPER.md RELEASE_NOTES_v0.1.2.md LICENSE dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/
       - name: Checksums
         run: |
           cd dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}

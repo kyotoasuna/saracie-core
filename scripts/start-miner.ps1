@@ -11,6 +11,9 @@ $ErrorActionPreference = "Stop"
 
 $Root = Split-Path -Parent $PSScriptRoot
 $MinerExe = Join-Path $Root "bin\saracie-miner.exe"
+if (-not (Test-Path $MinerExe)) {
+    $MinerExe = Join-Path $Root "saracie-miner.exe"
+}
 
 if (-not (Test-Path $MinerExe)) {
     throw "Missing $MinerExe. Run .\scripts\build-release.ps1 or go build first."

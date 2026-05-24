@@ -8,6 +8,9 @@ $Root = Split-Path -Parent $PSScriptRoot
 Push-Location $Root
 try {
     $walletExe = Join-Path $Root "bin\saracie-wallet.exe"
+    if (-not (Test-Path $walletExe)) {
+        $walletExe = Join-Path $Root "saracie-wallet.exe"
+    }
     $useBinary = Test-Path $walletExe
 
     if (Test-Path $Wallet) {

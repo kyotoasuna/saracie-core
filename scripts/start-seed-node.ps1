@@ -10,6 +10,9 @@ $ErrorActionPreference = "Stop"
 
 $Root = Split-Path -Parent $PSScriptRoot
 $NodeExe = Join-Path $Root "bin\saracied.exe"
+if (-not (Test-Path $NodeExe)) {
+    $NodeExe = Join-Path $Root "saracied.exe"
+}
 
 if (-not (Test-Path $NodeExe)) {
     throw "Missing $NodeExe. Run .\scripts\build-release.ps1 or go build first."

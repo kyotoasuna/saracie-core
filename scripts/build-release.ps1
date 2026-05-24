@@ -29,6 +29,11 @@ try {
         go build -o (Join-Path $outDir "saracie-miner$($target.Ext)") ./cmd/saracie-miner
         go build -o (Join-Path $outDir "saracie-wallet$($target.Ext)") ./cmd/saracie-wallet
         go build -o (Join-Path $outDir "saracie-ui$($target.Ext)") ./cmd/saracie-ui
+
+        Copy-Item -Path (Join-Path $Root "scripts") -Destination $outDir -Recurse -Force
+        foreach ($doc in @("README.md", "QUICKSTART_WINDOWS.md", "MINING.md", "WALLET.md", "WALLET_SECURITY.md", "UI.md", "WHITEPAPER.md", "RELEASE_NOTES_v0.1.2.md", "LICENSE")) {
+            Copy-Item -Path (Join-Path $Root $doc) -Destination $outDir -Force
+        }
     }
 
     Remove-Item Env:\GOOS -ErrorAction SilentlyContinue
