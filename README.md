@@ -82,18 +82,16 @@ Mine a block to your address:
 go run ./cmd/saracied mine --datadir .saracie --address sar1... --blocks 1
 ```
 
-Check balance:
-
-```bash
-go run ./cmd/saracie-wallet balance --datadir .saracie --address sar1...
-```
-
-Send SRCE:
-
 Create an encrypted wallet file:
 
 ```bash
 go run ./cmd/saracie-wallet create --wallet saracie.wallet
+```
+
+Check balance:
+
+```bash
+go run ./cmd/saracie-wallet balance --datadir .saracie --address sar1...
 ```
 
 Send from an encrypted wallet file:
@@ -133,13 +131,13 @@ saracied params
 saracied genesis
 saracied init --datadir .saracie
 saracied status --datadir .saracie
-  saracied wallet-new --index 0
-  saracied wallet-address --mnemonic "words..." --index 0
-  saracied send --datadir .saracie --mnemonic "words..." --to sar1... --amount 1 --fee 0.00001
-  saracied mempool --datadir .saracie
-  saracied mine --datadir .saracie --address sar1... --blocks 1
-  saracied node --datadir .saracie --listen :7339 --self http://host:7339 --peers http://peer:7339
-  saracied sync --datadir .saracie --peers http://host:7339
+saracied wallet-new --index 0
+saracied wallet-address --mnemonic "words..." --index 0
+saracied send --datadir .saracie --mnemonic "words..." --to sar1... --amount 1 --fee 0.00001
+saracied mempool --datadir .saracie
+saracied mine --datadir .saracie --address sar1... --blocks 1
+saracied node --datadir .saracie --listen :7339 --self http://host:7339 --peers http://peer:7339
+saracied sync --datadir .saracie --peers http://host:7339
 ```
 
 ## Documents
@@ -178,6 +176,16 @@ Before starting a launch stack:
 ```powershell
 .\scripts\preflight-launch.ps1
 ```
+
+## Website Hosting
+
+The official free website is currently published with GitHub Pages:
+
+```text
+https://kyotoasuna.github.io/saracie-core/
+```
+
+`vercel.json` is optional. It is only kept as a ready-to-use fallback if the site is later deployed to Vercel.
 
 ## Private Mining Wallet
 
