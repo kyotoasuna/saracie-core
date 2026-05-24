@@ -1,0 +1,4 @@
+{
+  "buildCommand": "node -e \"console.log('Saracie static site ready')\"",
+  "outputDirectory": "site"
+}

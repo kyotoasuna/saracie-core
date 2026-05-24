@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Saracie Local UI</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <canvas id="network-canvas" aria-hidden="true"></canvas>
+    <main class="shell">
+      <aside class="sidebar" aria-label="Saracie status">
+        <div class="brand">
+          <span class="brand-mark">S</span>
+          <div>
+            <strong>Saracie</strong>
+            <span>SRCE Local</span>
+          </div>
+        </div>
+
+        <section class="status-strip" aria-label="Chain status">
+          <div>
+            <span>Height</span>
+            <strong id="height">0</strong>
+          </div>
+          <div>
+            <span>Reward</span>
+            <strong id="reward">0.00000000</strong>
+          </div>
+          <div>
+            <span>Mempool</span>
+            <strong id="mempool">0</strong>
+          </div>
+        </section>
+
+        <section class="miner-readout" aria-label="Miner readout">
+          <span id="miner-pill" class="pill">Stopped</span>
+          <strong id="last-height">No blocks</strong>
+          <code id="last-hash">waiting for mining activity</code>
+        </section>
+      </aside>
+
+      <section class="workspace" aria-label="Wallet and miner controls">
+        <header class="topline">
+          <div>
+            <h1>Saracie Control</h1>
+            <p id="tip-hash">tip hash unavailable</p>
+          </div>
+          <button id="refresh" class="icon-button" type="button" aria-label="Refresh status" title="Refresh status">
+            R
+          </button>
+        </header>
+
+        <section class="grid">
+          <form id="wallet-form" class="panel">
+            <div class="panel-head">
+              <h2>Wallet</h2>
+              <span id="wallet-state">Locked</span>
+            </div>
+            <label>
+              Wallet file
+              <input id="wallet-file" name="wallet" value="saracie.wallet" autocomplete="off" />
+            </label>
+            <label>
+              Passphrase
+              <input id="wallet-passphrase" name="passphrase" type="password" autocomplete="current-password" />
+            </label>
+            <div class="button-row">
+              <button id="create-wallet" type="button">Create</button>
+              <button id="open-wallet" type="button">Open</button>
+            </div>
+            <output id="wallet-address" class="address">No wallet loaded</output>
+          </form>
+
+          <form id="balance-form" class="panel">
+            <div class="panel-head">
+              <h2>Balance</h2>
+              <span>UTXO</span>
+            </div>
+            <label>
+              Address
+              <input id="balance-address" name="address" autocomplete="off" />
+            </label>
+            <button type="submit">Check</button>
+            <div class="metric">
+              <span>Confirmed</span>
+              <strong id="confirmed-balance">0.00000000</strong>
+            </div>
+            <div class="metric">
+              <span>Spendable</span>
+              <strong id="spendable-balance">0.00000000</strong>
+            </div>
+          </form>
+
+          <form id="send-form" class="panel wide">
+            <div class="panel-head">
+              <h2>Send</h2>
+              <span>Signed transaction</span>
+            </div>
+            <label>
+              Recipient
+              <input id="send-to" name="to" autocomplete="off" />
+            </label>
+            <div class="two-col">
+              <label>
+                Amount
+                <input id="send-amount" name="amount" placeholder="0.10000000" inputmode="decimal" />
+              </label>
+              <label>
+                Fee
+                <input id="send-fee" name="fee" value="0.00001000" inputmode="decimal" />
+              </label>
+            </div>
+            <button type="submit">Send Transaction</button>
+            <output id="send-result" class="address">No transaction created</output>
+          </form>
+
+          <form id="miner-form" class="panel wide">
+            <div class="panel-head">
+              <h2>Miner</h2>
+              <span id="blocks-mined">0 blocks</span>
+            </div>
+            <label>
+              Payout address
+              <input id="miner-address" name="address" autocomplete="off" />
+            </label>
+            <div class="button-row">
+              <button id="start-miner" type="button">Start</button>
+              <button id="stop-miner" type="button">Stop</button>
+            </div>
+            <div class="metric">
+              <span>Last reward</span>
+              <strong id="last-reward">0.00000000</strong>
+            </div>
+          </form>
+        </section>
+
+        <output id="toast" class="toast" aria-live="polite"></output>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

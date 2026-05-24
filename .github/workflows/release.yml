@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: windows
+            goarch: amd64
+            ext: .exe
+          - goos: linux
+            goarch: amd64
+            ext: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.x"
+      - run: go test ./...
+      - name: Build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          mkdir -p dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}
+          go build -o dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/saracied${{ matrix.ext }} ./cmd/saracied
+          go build -o dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/saracie-miner${{ matrix.ext }} ./cmd/saracie-miner
+          go build -o dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/saracie-wallet${{ matrix.ext }} ./cmd/saracie-wallet
+          go build -o dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}/saracie-ui${{ matrix.ext }} ./cmd/saracie-ui
+      - name: Checksums
+        run: |
+          cd dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}
+          sha256sum * > SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: saracie-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: dist/saracie-${{ matrix.goos }}-${{ matrix.goarch }}
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Package
+        run: |
+          cd artifacts
+          for dir in *; do
+            zip -r "$dir.zip" "$dir"
+          done
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*.zip

@@ -1,0 +1,11 @@
+{
+  "network": "Saracie Mainnet",
+  "ticker": "SRCE",
+  "datadir": ".saracie",
+  "node_listen": "0.0.0.0:7339",
+  "node_public_url": "http://YOUR_PUBLIC_IP:7339",
+  "ui_listen": "127.0.0.1:7340",
+  "peers": [],
+  "mining_wallet": "saracie-mining.wallet",
+  "mining_address": "sar1_REPLACE_WITH_YOUR_PUBLIC_PAYOUT_ADDRESS"
+}

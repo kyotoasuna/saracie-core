@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Saracie (SRCE)</title>
+    <meta
+      name="description"
+      content="Saracie (SRCE) is an independent Proof-of-Work digital currency with 210,000 fixed supply, public mining, and six-month halvings."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="chain-canvas" aria-hidden="true"></canvas>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Saracie home">
+        <span class="brand-mark">S</span>
+        <span>Saracie</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#monetary">Policy</a>
+        <a href="#mine">Mining</a>
+        <a href="#wallet">Wallet</a>
+        <a href="https://github.com/kyotoasuna/saracie-core">GitHub</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-inner">
+          <p class="eyebrow">Proof-of-Work. Fixed supply. Public launch.</p>
+          <h1 id="hero-title">Saracie</h1>
+          <p class="ticker">SRCE</p>
+          <p class="lead">
+            An independent mineable digital currency with 210,000 total supply,
+            six-month halvings, and simple rules anyone can verify.
+          </p>
+          <div class="actions" aria-label="Project links">
+            <a class="button primary" href="https://github.com/kyotoasuna/saracie-core">View Source</a>
+            <a class="button" href="https://github.com/kyotoasuna/saracie-core/blob/main/WHITEPAPER.md">Whitepaper</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats" aria-label="Saracie monetary constants">
+        <article>
+          <span>Supply</span>
+          <strong>210,000</strong>
+          <p>SRCE maximum</p>
+        </article>
+        <article>
+          <span>Halving</span>
+          <strong>262,800</strong>
+          <p>blocks per era</p>
+        </article>
+        <article>
+          <span>Block Target</span>
+          <strong>60s</strong>
+          <p>per block</p>
+        </article>
+        <article>
+          <span>Launch</span>
+          <strong>0</strong>
+          <p>premine</p>
+        </article>
+      </section>
+
+      <section id="monetary" class="band">
+        <div class="section-copy">
+          <p class="eyebrow">Monetary policy</p>
+          <h2>Scarcity that stays readable.</h2>
+          <p>
+            SRCE is issued only through mining rewards. The first reward era
+            creates about half of the supply, then every era cuts the reward in
+            half. The supply cap is enforced by node consensus rules.
+          </p>
+        </div>
+        <div class="code-panel" aria-label="Saracie parameters">
+          <pre><code>ticker: SRCE
+max_supply: 210000
+initial_reward: 0.39954337
+halving_interval: 262800
+retarget_interval: 60
+address_prefix: sar1
+premine: 0</code></pre>
+        </div>
+      </section>
+
+      <section id="mine" class="band split-reverse">
+        <div class="section-copy">
+          <p class="eyebrow">Mining</p>
+          <h2>Every coin starts as work.</h2>
+          <p>
+            Miners build blocks, search for valid Proof-of-Work, and receive
+            SRCE rewards when the network accepts their blocks.
+          </p>
+        </div>
+        <div class="steps">
+          <article>
+            <strong>1</strong>
+            <p>Create a payout address.</p>
+          </article>
+          <article>
+            <strong>2</strong>
+            <p>Run Saracie Core.</p>
+          </article>
+          <article>
+            <strong>3</strong>
+            <p>Start mining and secure the chain.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="wallet" class="band">
+        <div class="section-copy">
+          <p class="eyebrow">Wallet</p>
+          <h2>Keys create addresses. Nodes verify coins.</h2>
+          <p>
+            A Saracie wallet derives addresses from a mnemonic seed. Coins live
+            on the blockchain as UTXOs, and the wallet controls the keys that
+            can spend them.
+          </p>
+        </div>
+        <div class="code-panel" aria-label="Wallet derivation">
+          <pre><code>entropy
+-> mnemonic
+-> seed
+-> m/84'/7331'/0'/0/index
+-> public key
+-> hash160
+-> sar1 address</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Saracie Core by Kyoto Asuna</span>
+      <a href="https://github.com/kyotoasuna/saracie-core">github.com/kyotoasuna/saracie-core</a>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
