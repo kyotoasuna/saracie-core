@@ -4,6 +4,24 @@ Saracie (SRCE) is an independent Proof-of-Work digital currency created by Kyoto
 
 The network is designed around a small fixed supply, public mining, simple wallets, and rules that anyone can verify.
 
+Public repository:
+
+```text
+https://github.com/kyotoasuna/saracie-core
+```
+
+Website:
+
+```text
+https://kyotoasuna.github.io/saracie-core/
+```
+
+Latest release:
+
+```text
+https://github.com/kyotoasuna/saracie-core/releases/tag/v0.1.0
+```
+
 ```text
 Name:            Saracie
 Ticker:          SRCE

@@ -85,3 +85,13 @@ Output directory: site
 ```
 
 The free Vercel URL can be used as the first public website.
+
+## GitHub Pages Site
+
+The repository also includes a GitHub Pages workflow.
+
+Expected URL:
+
+```text
+https://kyotoasuna.github.io/saracie-core/
+```

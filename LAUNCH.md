@@ -66,6 +66,7 @@ The website can be deployed from the `site` directory.
 [ ] seed node address published
 [ ] website deployed
 [x] Vercel static site config created
+[x] GitHub Pages workflow created
 [ ] launch time announced
 ```
 
