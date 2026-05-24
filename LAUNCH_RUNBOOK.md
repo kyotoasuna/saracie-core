@@ -5,7 +5,7 @@ This is the private operational runbook for starting Saracie mainnet.
 ## 1. Build
 
 ```powershell
-.\scripts\build-release.ps1 -Version v0.1.0
+.\scripts\build-release.ps1 -Version v0.1.4
 ```
 
 ## 2. Public Preflight

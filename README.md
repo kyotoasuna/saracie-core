@@ -149,6 +149,7 @@ saracied sync --datadir .saracie --peers http://host:7339
 
 ## Documents
 
+- [Windows Quickstart](QUICKSTART_WINDOWS.md)
 - [Whitepaper](WHITEPAPER.md)
 - [Mining Guide](MINING.md)
 - [Wallet Guide](WALLET.md)
@@ -163,7 +164,7 @@ saracied sync --datadir .saracie --peers http://host:7339
 From PowerShell:
 
 ```powershell
-.\scripts\build-release.ps1 -Version v0.1.0
+.\scripts\build-release.ps1 -Version v0.1.4
 ```
 
 This creates Windows/Linux binaries and `SHA256SUMS.txt` under `dist/`.
@@ -208,8 +209,8 @@ The resulting `saracie-mining.wallet` file is ignored by Git and must stay priva
 
 ```powershell
 .\scripts\start-seed-node.ps1 -DataDir ".saracie" -Listen "127.0.0.1:7339" -Self "http://127.0.0.1:7339"
-.\scripts\start-ui.ps1 -DataDir ".saracie" -Listen "127.0.0.1:7340" -Peers "http://127.0.0.1:7339"
-.\scripts\start-miner.ps1 -DataDir ".saracie" -Address "sar1..." -Peers "http://127.0.0.1:7339"
+.\scripts\start-ui.ps1 -DataDir ".saracie-ui" -Listen "127.0.0.1:7340" -Peers "http://127.0.0.1:7339"
+.\scripts\start-miner.ps1 -DataDir ".saracie-miner" -Address "sar1..." -Peers "http://127.0.0.1:7339"
 ```
 
 Stop everything:
