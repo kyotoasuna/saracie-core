@@ -1,5 +1,5 @@
 param(
-    [string]$DataDir = ".saracie",
+    [string]$DataDir = ".saracie-ui",
     [string]$Listen = "127.0.0.1:7340",
     [string]$Peers = "",
     [switch]$Foreground

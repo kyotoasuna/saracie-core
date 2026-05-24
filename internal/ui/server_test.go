@@ -2,6 +2,7 @@ package ui
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -10,6 +11,7 @@ import (
 	"time"
 
 	"github.com/kyotoasuna/saracie-core/internal/chain"
+	"github.com/kyotoasuna/saracie-core/internal/node"
 	"github.com/kyotoasuna/saracie-core/internal/wallet"
 )
 
@@ -82,6 +84,41 @@ func TestUIMinerStartStop(t *testing.T) {
 	postJSON(t, server.URL+"/api/miner/stop", map[string]any{}, &stopped)
 	if stopped.Running {
 		t.Fatal("miner did not stop")
+	}
+}
+
+func TestUIStatusSyncsFromPeers(t *testing.T) {
+	sourceDir := t.TempDir()
+	source, err := chain.Open(sourceDir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	account, err := wallet.NewAccount(0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := source.MineNext(context.Background(), account.Address); err != nil {
+		t.Fatal(err)
+	}
+	peer := httptest.NewServer(node.New(source).Handler())
+	defer peer.Close()
+
+	uiDir := t.TempDir()
+	uiStore, err := chain.Open(uiDir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler, err := New(uiStore, uiDir, []string{peer.URL}).Handler()
+	if err != nil {
+		t.Fatal(err)
+	}
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	var status StatusResponse
+	getJSON(t, server.URL+"/api/status", &status)
+	if status.Chain.Height != 1 {
+		t.Fatalf("height = %d, want 1", status.Chain.Height)
 	}
 }
 

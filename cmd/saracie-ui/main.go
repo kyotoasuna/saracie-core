@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	dataDir := flag.String("datadir", ".saracie", "data directory")
+	dataDir := flag.String("datadir", ".saracie-ui", "data directory")
 	listen := flag.String("listen", "127.0.0.1:7340", "local UI listen address")
 	peers := flag.String("peers", "", "comma-separated peer status API URLs")
 	flag.Parse()

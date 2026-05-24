@@ -2,12 +2,12 @@
 
 Saracie Local UI is a browser-based desktop-style control panel served by a local Go binary.
 
-It runs on the user's own machine and connects to the local Saracie data directory.
+It runs on the user's own machine and keeps its own local UI data directory.
 
 ## Start
 
 ```bash
-go run ./cmd/saracie-ui --datadir .saracie --listen 127.0.0.1:7340
+go run ./cmd/saracie-ui --datadir .saracie-ui --listen 127.0.0.1:7340 --peers http://127.0.0.1:7339
 ```
 
 Open:
@@ -33,10 +33,10 @@ Wallet passphrases are sent only to the local UI server running on the user's ma
 ## With Peers
 
 ```bash
-go run ./cmd/saracie-ui --datadir .saracie --listen 127.0.0.1:7340 --peers http://peer-ip:7339
+go run ./cmd/saracie-ui --datadir .saracie-ui --listen 127.0.0.1:7340 --peers http://peer-ip:7339
 ```
 
-The UI miner submits mined blocks to configured peers.
+The UI syncs chain data from configured peers and submits mined blocks to configured peers.
 
 ## Local-Only Default
 

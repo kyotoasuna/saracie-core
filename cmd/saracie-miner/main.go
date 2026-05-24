@@ -38,11 +38,14 @@ func main() {
 	fmt.Println("Saracie Miner")
 	fmt.Println("payout:", *address)
 
+	peerList := parsePeers(*peers)
 	var mined uint
 	for {
 		if *blocks > 0 && mined >= *blocks {
 			return
 		}
+
+		syncBeforeMining(store, peerList)
 
 		block, err := store.MineNext(ctx, *address)
 		if err != nil {
@@ -57,11 +60,23 @@ func main() {
 			consensus.FormatAmount(coinbaseValue(block)),
 		)
 
-		for _, peer := range parsePeers(*peers) {
+		for _, peer := range peerList {
 			if err := node.SubmitBlock(peer, block); err != nil {
 				fmt.Fprintf(os.Stderr, "peer submit failed for %s: %v\n", peer, err)
 			}
 		}
+	}
+}
+
+func syncBeforeMining(store *chain.Store, peers []string) {
+	if len(peers) == 0 {
+		return
+	}
+	if _, err := node.SyncFromPeers(store, peers); err != nil {
+		fmt.Fprintf(os.Stderr, "peer chain sync warning: %v\n", err)
+	}
+	if _, err := node.SyncMempoolFromPeers(store, peers); err != nil {
+		fmt.Fprintf(os.Stderr, "peer mempool sync warning: %v\n", err)
 	}
 }
 

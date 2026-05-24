@@ -43,16 +43,16 @@ go run ./cmd/saracied mine --datadir .saracie --address sar1... --blocks 1
 Or use the separate miner command:
 
 ```bash
-go run ./cmd/saracie-miner --datadir .saracie --address sar1... --blocks 1
+go run ./cmd/saracie-miner --datadir .saracie-miner --address sar1... --blocks 1
 ```
 
 To submit mined blocks to a running node API:
 
 ```bash
-go run ./cmd/saracie-miner --datadir .saracie --address sar1... --blocks 1 --peers http://127.0.0.1:7339
+go run ./cmd/saracie-miner --datadir .saracie-miner --address sar1... --blocks 1 --peers http://127.0.0.1:7339
 ```
 
-The miner builds a candidate block, includes valid mempool transactions, searches for a valid Proof-of-Work hash, and writes the block to the local chain.
+The miner syncs from configured peers before mining, builds a candidate block, includes valid mempool transactions, searches for a valid Proof-of-Work hash, writes the block to the local miner chain, and submits the block to peers.
 
 ## Check Status
 
@@ -93,21 +93,9 @@ go run ./cmd/saracied node --datadir .saracie --listen :7339 --self http://your-
 Mine and submit blocks to that node:
 
 ```bash
-go run ./cmd/saracie-miner --datadir .saracie --address sar1... --peers http://127.0.0.1:7339
+go run ./cmd/saracie-miner --datadir .saracie-miner --address sar1... --peers http://127.0.0.1:7339
 ```
 
 The node will gossip accepted blocks and transactions to known peers.
-
-## Next Miner Milestone
-
-The next miner version should include:
-
-- separate miner binary;
-- simple desktop UI;
-- payout address field;
-- hashrate display;
-- blocks found;
-- connection status;
-- start/stop controls.
 
 The miner should not need private keys. It only needs a payout address.

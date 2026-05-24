@@ -55,7 +55,7 @@ Invoke-RestMethod http://127.0.0.1:7339/status
 ## 5. Start UI
 
 ```powershell
-.\scripts\start-ui.ps1 -DataDir ".saracie" -Listen "127.0.0.1:7340" -Peers "http://127.0.0.1:7339"
+.\scripts\start-ui.ps1 -DataDir ".saracie-ui" -Listen "127.0.0.1:7340" -Peers "http://127.0.0.1:7339"
 ```
 
 Open:
@@ -69,8 +69,10 @@ http://127.0.0.1:7340
 Use the public payout address from the private wallet:
 
 ```powershell
-.\scripts\start-miner.ps1 -DataDir ".saracie" -Address "sar1..." -Peers "http://127.0.0.1:7339"
+.\scripts\start-miner.ps1 -DataDir ".saracie-miner" -Address "sar1..." -Peers "http://127.0.0.1:7339"
 ```
+
+Keep the seed node, UI, and miner in separate data directories. The node stores the public chain in `.saracie`; the UI stores its synced view in `.saracie-ui`; the miner stores its mining copy in `.saracie-miner`.
 
 ## 7. Watch First Blocks
 

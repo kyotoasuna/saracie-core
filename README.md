@@ -19,7 +19,7 @@ https://kyotoasuna.github.io/saracie-core/
 Latest release:
 
 ```text
-https://github.com/kyotoasuna/saracie-core/releases/tag/v0.1.0
+https://github.com/kyotoasuna/saracie-core/releases/tag/v0.1.1
 ```
 
 ```text
@@ -55,12 +55,19 @@ This repository currently contains the first Saracie Core foundation:
 - block and transaction gossip;
 - periodic peer sync;
 - local browser UI;
+- separate node, UI, and miner data directories;
 - difficulty retargeting;
 - public whitepaper and launch docs.
 
-Graphical wallet UI, miner UI, and stronger production-grade peer discovery are the next implementation milestones.
+Stronger production-grade peer discovery and more user-friendly installers are the next implementation milestones.
 
 ## Quick Start
+
+For a Windows step-by-step launch/mining guide, read:
+
+```text
+QUICKSTART_WINDOWS.md
+```
 
 Install Go, then run:
 
@@ -121,7 +128,7 @@ go run ./cmd/saracied node --datadir .saracie --listen :7339 --self http://your-
 Run the local UI:
 
 ```bash
-go run ./cmd/saracie-ui --datadir .saracie --listen 127.0.0.1:7340
+go run ./cmd/saracie-ui --datadir .saracie-ui --listen 127.0.0.1:7340 --peers http://127.0.0.1:7339
 ```
 
 ## Commands

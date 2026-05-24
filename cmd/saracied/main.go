@@ -257,7 +257,10 @@ func mine(args []string) error {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
+	peerList := parsePeers(*peers)
 	for i := uint(0); i < *blocks; i++ {
+		syncBeforeMining(store, peerList)
+
 		block, err := store.MineNext(ctx, *address)
 		if err != nil {
 			return err
@@ -267,7 +270,7 @@ func mine(args []string) error {
 			block.Hash(),
 			consensus.FormatAmount(coinbaseValue(block)),
 		)
-		for _, peer := range parsePeers(*peers) {
+		for _, peer := range peerList {
 			if err := node.SubmitBlock(peer, block); err != nil {
 				fmt.Fprintf(os.Stderr, "peer submit failed for %s: %v\n", peer, err)
 			}
@@ -275,6 +278,18 @@ func mine(args []string) error {
 	}
 
 	return nil
+}
+
+func syncBeforeMining(store *chain.Store, peers []string) {
+	if len(peers) == 0 {
+		return
+	}
+	if _, err := node.SyncFromPeers(store, peers); err != nil {
+		fmt.Fprintf(os.Stderr, "peer chain sync warning: %v\n", err)
+	}
+	if _, err := node.SyncMempoolFromPeers(store, peers); err != nil {
+		fmt.Fprintf(os.Stderr, "peer mempool sync warning: %v\n", err)
+	}
 }
 
 func coinbaseValue(block chain.Block) int64 {

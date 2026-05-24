@@ -2,7 +2,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$Address,
 
-    [string]$DataDir = ".saracie",
+    [string]$DataDir = ".saracie-miner",
     [string]$Peers = "",
     [switch]$Foreground
 )

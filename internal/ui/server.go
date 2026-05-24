@@ -27,6 +27,9 @@ type Server struct {
 	mu        sync.Mutex
 	miner     MinerState
 	cancelMin context.CancelFunc
+	syncing   bool
+	lastSync  time.Time
+	syncError string
 }
 
 type MinerState struct {
@@ -87,6 +90,7 @@ func (s *Server) status(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
+	s.syncFromPeersIfStale()
 	s.mu.Lock()
 	resp := StatusResponse{
 		Chain: s.store.Status(),
@@ -163,6 +167,7 @@ func (s *Server) balance(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "address is required", http.StatusBadRequest)
 		return
 	}
+	s.syncFromPeersIfStale()
 	s.mu.Lock()
 	balance, err := s.store.Balance(address)
 	s.mu.Unlock()
@@ -215,6 +220,7 @@ func (s *Server) sendFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	s.syncFromPeersIfStale()
 	s.mu.Lock()
 	utxos, err := s.store.SpendableUTXOs(keyPair.PubKeyHash)
 	if err == nil {
@@ -255,6 +261,7 @@ func (s *Server) minerStart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	s.syncFromPeersIfStale()
 	s.mu.Lock()
 	if s.miner.Running {
 		state := s.miner
@@ -306,6 +313,7 @@ func (s *Server) mineLoop(ctx context.Context, address string) {
 		default:
 		}
 
+		s.syncFromPeersIfStale()
 		s.mu.Lock()
 		block, err := s.store.MineNext(ctx, address)
 		if err != nil {
@@ -327,6 +335,57 @@ func (s *Server) mineLoop(ctx context.Context, address string) {
 			_ = node.SubmitBlock(peer, block)
 		}
 	}
+}
+
+func (s *Server) syncFromPeersIfStale() {
+	s.mu.Lock()
+	if len(s.peers) == 0 || s.syncing || time.Since(s.lastSync) < 5*time.Second {
+		s.mu.Unlock()
+		return
+	}
+	peers := append([]string(nil), s.peers...)
+	s.syncing = true
+	s.mu.Unlock()
+
+	var firstErr error
+	for _, peer := range peers {
+		blocks, err := node.FetchBlocks(peer)
+		if err != nil {
+			if firstErr == nil {
+				firstErr = err
+			}
+		} else {
+			s.mu.Lock()
+			_, err = s.store.ReplaceIfValidLonger(blocks)
+			s.mu.Unlock()
+			if err != nil && firstErr == nil {
+				firstErr = err
+			}
+		}
+
+		txs, err := node.FetchMempool(peer)
+		if err != nil {
+			if firstErr == nil {
+				firstErr = err
+			}
+			continue
+		}
+		s.mu.Lock()
+		for _, tx := range txs {
+			_ = s.store.AddMempoolTx(tx)
+		}
+		s.mu.Unlock()
+	}
+
+	s.mu.Lock()
+	s.syncing = false
+	s.lastSync = time.Now()
+	if firstErr != nil {
+		s.syncError = firstErr.Error()
+	} else {
+		s.syncError = ""
+	}
+	s.mu.Unlock()
 }
 
 func (s *Server) walletPath(name string) string {
